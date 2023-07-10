@@ -16,6 +16,8 @@ it needs to be upgraded"""
 
 count_call = 0
 
+async def on_startup(_):
+    print("Good work!")
 
 @disp.message_handler()
 async def echo(message:types.Message):
@@ -71,6 +73,20 @@ async def yes_or_no(message:types.Message):
     else:
         await message.answer(text='NO')
 
+
+@disp.message_handler(commands=['emodji'])
+async def get_emodji(messange:types.Message):
+    await bot.send_sticker(messange.from_user.id,sticker="CAACAgIAAxkBAAEJpkBkq8giWz8XLjeyvYN1sgABvoKhrewAAh4VAAKl0-lLUnW8uJFVS0IvBA")
+
+
+@disp.message_handler()
+async def bold_font(message:types.Message):
+    await message.answer("<b>Font bold</b>",parse_mode="HTML")
+
+
+@disp.message_handler()
+async def italics_font(message:types.Message):
+    await message.answer("<em>Font italics</em>",parse_mode="HTML")
 
 if __name__ == "__main__":
     executor.start_polling(disp)
