@@ -9,6 +9,7 @@ command_help = """
 /help
 /description
 /count
+/emodji
 """
 
 description = """My bot is weak
