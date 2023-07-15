@@ -1,5 +1,6 @@
 from aiogram import Bot,Dispatcher,executor,types
 from aiogram.types import ReplyKeyboardMarkup,ReplyKeyboardRemove,KeyboardButton
+from aiogram.types import InlineKeyboardMarkup,InlineKeyboardButton
 from random import randint
 import configuration
 
@@ -7,13 +8,15 @@ bot = Bot(configuration.TOKEN_BOT)
 disp = Dispatcher(bot)
 
 command_help = """
-/start
-/help
-/description
-/count
-/stiker
-/heart
-/hedgehog
+<b>/start</b>
+<b>/help</b>
+<b>/description</b>
+<b>/count</b>
+<b>/stiker</b>
+<b>/heart</b>
+<b>/hedgehog</b>
+<b>/map</b>
+<b>/social_network</b>
 """
 
 description = """My bot is weak
@@ -29,6 +32,13 @@ keyboard.add(KeyboardButton('/count'))# type: ignore
 keyboard.add(KeyboardButton('/stiker'))# type: ignore
 keyboard.add(KeyboardButton('/heart'))# type: ignore
 keyboard.add(KeyboardButton('/hedgehog'))# type: ignore
+keyboard.add(KeyboardButton("/map"))# type: ignore
+keyboard.add(KeyboardButton("/social_network"))#type: ignore
+
+inline = InlineKeyboardMarkup()
+inline_button1 = InlineKeyboardButton("VK",configuration.VK)# type: ignore
+inline_button2 = InlineKeyboardButton("Instagram",configuration.INSTAGRAM)# type: ignore
+inline.add(inline_button1,inline_button2)
 
 async def on_startup(_):
     print("Good work!")
@@ -63,7 +73,7 @@ async def start_bot(message:types.Message):
 
 @disp.message_handler(commands=['help'])
 async def help_bot(message:types.Message):
-    await bot.send_message(chat_id=message.chat.id,text=command_help)
+    await bot.send_message(chat_id=message.chat.id,text=command_help,parse_mode="HTML")
     await message.delete()
 
 
@@ -145,6 +155,14 @@ async def hedgehog_bot(message:types.Message):
     if random_value == 10:
         await bot.send_photo(chat_id=message.chat.id,photo=configuration.HEDGEHOG10)
 
+
+@disp.message_handler(commands=['map'])
+async def map_bot(messange:types.Message):
+    await bot.send_location(chat_id=messange.chat.id,latitude=randint(1,100),longitude=randint(1,100))
+
+@disp.message_handler(commands=['social_network'])
+async def social_network_bot(messange:types.Message):
+    await bot.send_message(chat_id=messange.chat.id,text="My social network",reply_markup=inline)
 
 if __name__ == "__main__":
     executor.start_polling(disp,skip_updates=True)
