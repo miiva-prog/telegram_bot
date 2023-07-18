@@ -12,11 +12,12 @@ command_help = """
 <b>/help</b>
 <b>/description</b>
 <b>/count</b>
-<b>/stiker</b>
+<b>/sticker</b>
 <b>/heart</b>
 <b>/hedgehog</b>
 <b>/map</b>
 <b>/social_network</b>
+<b>/mood</b>
 """
 
 description = """My bot is weak
@@ -29,11 +30,12 @@ keyboard.add(KeyboardButton('/start'))# type: ignore
 keyboard.add(KeyboardButton('/help'))# type: ignore
 keyboard.add(KeyboardButton('/description'))# type: ignore
 keyboard.add(KeyboardButton('/count'))# type: ignore
-keyboard.add(KeyboardButton('/stiker'))# type: ignore
+keyboard.add(KeyboardButton('/sticker'))# type: ignore
 keyboard.add(KeyboardButton('/heart'))# type: ignore
 keyboard.add(KeyboardButton('/hedgehog'))# type: ignore
 keyboard.add(KeyboardButton("/map"))# type: ignore
 keyboard.add(KeyboardButton("/social_network"))#type: ignore
+keyboard.add(KeyboardButton("/mood"))#type: ignore
 
 inline = InlineKeyboardMarkup()
 inline_button1 = InlineKeyboardButton("VK",configuration.VK)# type: ignore
@@ -41,7 +43,7 @@ inline_button2 = InlineKeyboardButton("Instagram",configuration.INSTAGRAM)# type
 inline.add(inline_button1,inline_button2)
 
 async def on_startup(_):
-    print("Good work!")
+    print("Good work!")    
 
 """
 @disp.message_handler()
@@ -84,9 +86,9 @@ async def bold_font(message:types.Message):
 @disp.message_handler()
 async def yes_or_no(message:types.Message):
     if '0' in message.text:
-        await message.answer(text='YES')
+        await bot.send_message(chat_id=message.chat.id,text='YES')
     else:
-        await message.answer(text='NO')
+        await bot.send_message(chat_id=message.chat.id,text='NO')
 
      
 @disp.message_handler()
@@ -120,8 +122,8 @@ async def count_bot(message:types.Message):
     await message.delete()
 
 
-@disp.message_handler(commands=['stiker'])
-async def stiker_bot(messange:types.Message):
+@disp.message_handler(commands=['sticker'])
+async def sticker_bot(messange:types.Message):
     await bot.send_sticker(messange.from_user.id,sticker=configuration.HASBULLA)
 
 
@@ -160,11 +162,30 @@ async def hedgehog_bot(message:types.Message):
 async def map_bot(messange:types.Message):
     await bot.send_location(chat_id=messange.chat.id,latitude=randint(1,100),longitude=randint(1,100))
 
-    
+
 @disp.message_handler(commands=['social_network'])
 async def social_network_bot(messange:types.Message):
     await bot.send_message(chat_id=messange.chat.id,text="My social network",reply_markup=inline)
 
 
+@disp.message_handler(commands=['mood'])
+async def mood_bot(messange:types.Message):
+    inline_2 = InlineKeyboardMarkup()
+    inline_2_button1 = InlineKeyboardButton(text="Good",callback_data="like")# type: ignore
+    inline_2_button2 = InlineKeyboardButton(text="Bad",callback_data="dislike")# type: ignore
+    inline_2.add(inline_2_button1,inline_2_button2)
+
+    await bot.send_message(chat_id=messange.chat.id,text="how is your mood?",reply_markup=inline_2)
+
+
+@disp.callback_query_handler()
+async def callback_mood(callback:types.CallbackQuery):
+    if callback.data == "like":
+        await callback.answer(text="Nice!")
+    else:
+        await callback.answer(text="Everything will be alright!")
+
+
+
 if __name__ == "__main__":
-    executor.start_polling(disp,skip_updates=True)
+    executor.start_polling(disp,skip_updates=True,on_startup=on_startup)
