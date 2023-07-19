@@ -1,6 +1,6 @@
 from aiogram import Bot,Dispatcher,executor,types
 from aiogram.types import ReplyKeyboardMarkup,ReplyKeyboardRemove,KeyboardButton
-from aiogram.types import InlineKeyboardMarkup,InlineKeyboardButton
+from aiogram.types import InlineKeyboardMarkup,InlineKeyboardButton,InputFile
 from random import randint
 import configuration
 
@@ -36,6 +36,12 @@ keyboard.add(KeyboardButton('/hedgehog'))# type: ignore
 keyboard.add(KeyboardButton("/map"))# type: ignore
 keyboard.add(KeyboardButton("/social_network"))#type: ignore
 keyboard.add(KeyboardButton("/mood"))#type: ignore
+keyboard.add(KeyboardButton("/dogs"))#type: ignore
+
+keyboard_2 = ReplyKeyboardMarkup(one_time_keyboard=True)#type: ignore
+keyboard_2.add(KeyboardButton("/spitz"))#type: ignore
+keyboard_2.add(KeyboardButton("/pug"))#type: ignore
+keyboard_2.add(KeyboardButton("/poodle"))#type: ignore
 
 inline = InlineKeyboardMarkup()
 inline_button1 = InlineKeyboardButton("VK",configuration.VK)# type: ignore
@@ -159,23 +165,23 @@ async def hedgehog_bot(message:types.Message):
 
 
 @disp.message_handler(commands=['map'])
-async def map_bot(messange:types.Message):
-    await bot.send_location(chat_id=messange.chat.id,latitude=randint(1,100),longitude=randint(1,100))
+async def map_bot(message:types.Message):
+    await bot.send_location(chat_id=message.chat.id,latitude=randint(1,100),longitude=randint(1,100))
 
 
 @disp.message_handler(commands=['social_network'])
-async def social_network_bot(messange:types.Message):
-    await bot.send_message(chat_id=messange.chat.id,text="My social network",reply_markup=inline)
+async def social_network_bot(message:types.Message):
+    await bot.send_message(chat_id=message.chat.id,text="My social network",reply_markup=inline)
 
 
 @disp.message_handler(commands=['mood'])
-async def mood_bot(messange:types.Message):
+async def mood_bot(message:types.Message):
     inline_2 = InlineKeyboardMarkup()
     inline_2_button1 = InlineKeyboardButton(text="Good",callback_data="like")# type: ignore
     inline_2_button2 = InlineKeyboardButton(text="Bad",callback_data="dislike")# type: ignore
     inline_2.add(inline_2_button1,inline_2_button2)
 
-    await bot.send_message(chat_id=messange.chat.id,text="how is your mood?",reply_markup=inline_2)
+    await bot.send_message(chat_id=message.chat.id,text="how is your mood?",reply_markup=inline_2)
 
 
 @disp.callback_query_handler()
@@ -186,6 +192,28 @@ async def callback_mood(callback:types.CallbackQuery):
         await callback.answer(text="Everything will be alright!")
 
 
+@disp.message_handler(commands=['dogs'])
+async def dogs_bot(message:types.Message):
+    await bot.send_message(chat_id=message.chat.id,text="choose a breed",reply_markup=keyboard_2)
+    await message.delete()
+
+
+@disp.message_handler(commands=['spitz'])
+async def spitz_bot(message:types.Message):
+    await bot.send_photo(chat_id=message.chat.id,photo=configuration.SPITZ)
+    await message.delete() 
+
+
+@disp.message_handler(commands=['pug'])
+async def pug_bot(message:types.Message):
+    await bot.send_photo(chat_id=message.chat.id,photo=configuration.PUG)
+    await message.delete() 
+
+
+@disp.message_handler(commands=['poodle'])
+async def poodle_bot(message:types.Message):
+    await bot.send_photo(chat_id=message.chat.id,photo=configuration.POODLE)
+    await message.delete() 
 
 if __name__ == "__main__":
     executor.start_polling(disp,skip_updates=True,on_startup=on_startup)
