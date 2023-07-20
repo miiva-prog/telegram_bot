@@ -18,6 +18,7 @@ command_help = """
 <b>/map</b>
 <b>/social_network</b>
 <b>/mood</b>
+<b>/dogs</b>
 """
 
 description = """My bot is weak
@@ -131,6 +132,7 @@ async def count_bot(message:types.Message):
 @disp.message_handler(commands=['sticker'])
 async def sticker_bot(messange:types.Message):
     await bot.send_sticker(messange.from_user.id,sticker=configuration.HASBULLA)
+    await messange.delete()
 
 
 @disp.message_handler(commands=['heart'])
@@ -162,11 +164,12 @@ async def hedgehog_bot(message:types.Message):
         await bot.send_photo(chat_id=message.chat.id,photo=configuration.HEDGEHOG9)
     if random_value == 10:
         await bot.send_photo(chat_id=message.chat.id,photo=configuration.HEDGEHOG10)
-
+    await message.delete()
 
 @disp.message_handler(commands=['map'])
 async def map_bot(message:types.Message):
     await bot.send_location(chat_id=message.chat.id,latitude=randint(1,100),longitude=randint(1,100))
+    await message.delete()
 
 
 @disp.message_handler(commands=['social_network'])
