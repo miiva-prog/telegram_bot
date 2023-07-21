@@ -1,7 +1,7 @@
 from aiogram import Bot,Dispatcher,executor,types
 from aiogram.types import ReplyKeyboardMarkup,ReplyKeyboardRemove,KeyboardButton
 from aiogram.types import InlineKeyboardMarkup,InlineKeyboardButton,InputFile
-from random import randint
+import random
 import configuration
 
 bot = Bot(configuration.TOKEN_BOT)
@@ -38,11 +38,15 @@ keyboard.add(KeyboardButton("/map"))# type: ignore
 keyboard.add(KeyboardButton("/social_network"))#type: ignore
 keyboard.add(KeyboardButton("/mood"))#type: ignore
 keyboard.add(KeyboardButton("/dogs"))#type: ignore
+keyboard.add(KeyboardButton("🥰"))#type: ignore
 
 keyboard_2 = ReplyKeyboardMarkup(one_time_keyboard=True)#type: ignore
 keyboard_2.add(KeyboardButton("/spitz"))#type: ignore
 keyboard_2.add(KeyboardButton("/pug"))#type: ignore
-keyboard_2.add(KeyboardButton("/poodle"))#type: ignore
+keyboard_2.add(KeyboardButton("/french_bulldog"))#type: ignore
+keyboard_2.add(KeyboardButton("/chihuahua"))#type: ignore
+keyboard_2.add(KeyboardButton("/corgi"))#type: ignore
+keyboard_2.add(KeyboardButton("/labrador"))#type: ignore
 
 inline = InlineKeyboardMarkup()
 inline_button1 = InlineKeyboardButton("VK",configuration.VK)# type: ignore
@@ -103,6 +107,12 @@ async def italics_font(message:types.Message):
     await message.answer(text="<em>Font italics</em>",parse_mode="HTML")
 """
 
+@disp.message_handler()
+async def love(message:types.Message):
+    if message.text == '🥰':
+        await bot.send_photo(chat_id=message.chat.id,photo=configuration.VIKA)
+
+
 @disp.message_handler(commands=['start'])
 async def start_bot(message:types.Message):
     await bot.send_message(chat_id=message.chat.id,text="Welcome",reply_markup=keyboard)
@@ -143,32 +153,12 @@ async def heart_bot(message:types.Message):
 
 @disp.message_handler(commands=['hedgehog'])
 async def hedgehog_bot(message:types.Message):
-    random_value = randint(1,10)
-    if random_value == 1:
-        await bot.send_photo(chat_id=message.chat.id,photo=configuration.HEDGEHOG1)
-    if random_value == 2:
-        await bot.send_photo(chat_id=message.chat.id,photo=configuration.HEDGEHOG2)
-    if random_value == 3:
-        await bot.send_photo(chat_id=message.chat.id,photo=configuration.HEDGEHOG3)
-    if random_value == 4:
-        await bot.send_photo(chat_id=message.chat.id,photo=configuration.HEDGEHOG4)
-    if random_value == 5:
-        await bot.send_photo(chat_id=message.chat.id,photo=configuration.HEDGEHOG5)
-    if random_value == 6:
-        await bot.send_photo(chat_id=message.chat.id,photo=configuration.HEDGEHOG6)
-    if random_value == 7:
-        await bot.send_photo(chat_id=message.chat.id,photo=configuration.HEDGEHOG7)
-    if random_value == 8:
-        await bot.send_photo(chat_id=message.chat.id,photo=configuration.HEDGEHOG8)
-    if random_value == 9:
-        await bot.send_photo(chat_id=message.chat.id,photo=configuration.HEDGEHOG9)
-    if random_value == 10:
-        await bot.send_photo(chat_id=message.chat.id,photo=configuration.HEDGEHOG10)
+    await bot.send_photo(chat_id=message.chat.id,photo=random.choice(configuration.ARR_HEDGEHOG))
     await message.delete()
 
 @disp.message_handler(commands=['map'])
 async def map_bot(message:types.Message):
-    await bot.send_location(chat_id=message.chat.id,latitude=randint(1,100),longitude=randint(1,100))
+    await bot.send_location(chat_id=message.chat.id,latitude=random.randint(1,100),longitude=random.randint(1,100))
     await message.delete()
 
 
@@ -185,6 +175,7 @@ async def mood_bot(message:types.Message):
     inline_2.add(inline_2_button1,inline_2_button2)
 
     await bot.send_message(chat_id=message.chat.id,text="how is your mood?",reply_markup=inline_2)
+    await message.delete()
 
 
 @disp.callback_query_handler()
@@ -203,20 +194,39 @@ async def dogs_bot(message:types.Message):
 
 @disp.message_handler(commands=['spitz'])
 async def spitz_bot(message:types.Message):
-    await bot.send_photo(chat_id=message.chat.id,photo=configuration.SPITZ)
+    await bot.send_photo(chat_id=message.chat.id,photo=random.choice(configuration.ARR_SPITZ))
     await message.delete() 
 
 
 @disp.message_handler(commands=['pug'])
 async def pug_bot(message:types.Message):
-    await bot.send_photo(chat_id=message.chat.id,photo=configuration.PUG)
+    await bot.send_photo(chat_id=message.chat.id,photo=random.choice(configuration.ARR_PUG))
     await message.delete() 
 
 
-@disp.message_handler(commands=['poodle'])
-async def poodle_bot(message:types.Message):
-    await bot.send_photo(chat_id=message.chat.id,photo=configuration.POODLE)
-    await message.delete() 
+@disp.message_handler(commands=['french_bulldog'])
+async def french_bulldog_bot(message:types.Message):
+    await bot.send_photo(chat_id=message.chat.id,photo=random.choice(configuration.ARR_FRENCH_BULLDOG))
+    await message.delete()
+
+
+@disp.message_handler(commands=['chihuahua'])
+async def chihuahua_bot(message:types.Message):
+    await bot.send_photo(chat_id=message.chat.id,photo=random.choice(configuration.ARR_CHIHUAHUA))
+    await message.delete()
+
+
+@disp.message_handler(commands=['corgi'])
+async def corgi_bot(message:types.Message):
+    await bot.send_photo(chat_id=message.chat.id,photo=random.choice(configuration.ARR_CORGI))
+    await message.delete()
+
+
+@disp.message_handler(commands=['labrador'])
+async def labrador_bot(message:types.Message):
+    await bot.send_photo(chat_id=message.chat.id,photo=random.choice(configuration.ARR_LABRADOR))
+    await message.delete()
+
 
 if __name__ == "__main__":
     executor.start_polling(disp,skip_updates=True,on_startup=on_startup)
