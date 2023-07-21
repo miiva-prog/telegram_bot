@@ -107,12 +107,6 @@ async def italics_font(message:types.Message):
     await message.answer(text="<em>Font italics</em>",parse_mode="HTML")
 """
 
-@disp.message_handler()
-async def love(message:types.Message):
-    if message.text == '🥰':
-        await bot.send_photo(chat_id=message.chat.id,photo=configuration.VIKA)
-
-
 @disp.message_handler(commands=['start'])
 async def start_bot(message:types.Message):
     await bot.send_message(chat_id=message.chat.id,text="Welcome",reply_markup=keyboard)
@@ -226,6 +220,12 @@ async def corgi_bot(message:types.Message):
 async def labrador_bot(message:types.Message):
     await bot.send_photo(chat_id=message.chat.id,photo=random.choice(configuration.ARR_LABRADOR))
     await message.delete()
+
+
+@disp.message_handler()
+async def love(message:types.Message):
+    if message.text == '🥰':
+        await bot.send_photo(chat_id=message.chat.id,photo=configuration.VIKA)
 
 
 if __name__ == "__main__":
