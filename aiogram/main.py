@@ -19,6 +19,7 @@ command_help = """
 <b>/social_network</b>
 <b>/mood</b>
 <b>/dogs</b>
+<b>/voting</b>
 """
 
 description = """My bot is weak
@@ -39,6 +40,7 @@ keyboard.add(KeyboardButton("/social_network"))#type: ignore
 keyboard.add(KeyboardButton("/mood"))#type: ignore
 keyboard.add(KeyboardButton("/dogs"))#type: ignore
 keyboard.add(KeyboardButton("🥰"))#type: ignore
+keyboard.add(KeyboardButton("/voting"))#type: ignore
 
 keyboard_2 = ReplyKeyboardMarkup(one_time_keyboard=True)#type: ignore
 keyboard_2.add(KeyboardButton("/spitz"))#type: ignore
@@ -150,6 +152,7 @@ async def hedgehog_bot(message:types.Message):
     await bot.send_photo(chat_id=message.chat.id,photo=random.choice(configuration.ARR_HEDGEHOG))
     await message.delete()
 
+
 @disp.message_handler(commands=['map'])
 async def map_bot(message:types.Message):
     await bot.send_location(chat_id=message.chat.id,latitude=random.randint(1,100),longitude=random.randint(1,100))
@@ -159,6 +162,7 @@ async def map_bot(message:types.Message):
 @disp.message_handler(commands=['social_network'])
 async def social_network_bot(message:types.Message):
     await bot.send_message(chat_id=message.chat.id,text="My social network",reply_markup=inline)
+    await message.delete()
 
 
 @disp.message_handler(commands=['mood'])
@@ -222,6 +226,26 @@ async def labrador_bot(message:types.Message):
     await message.delete()
 
 
+@disp.message_handler(commands=['voting'])
+async def voting_bot(message:types.Message):
+    inline3 = InlineKeyboardMarkup()
+    inline3_button1 = InlineKeyboardButton("👍",callback_data="Like")#type: ignore
+    inline3_button2 = InlineKeyboardButton("👎",callback_data="Dislike")#type: ignore
+    inline3_button3 = InlineKeyboardButton("Close",callback_data="close")#type: ignore
+    inline3.add(inline3_button1,inline3_button2,inline3_button3)
+
+    await bot.send_photo(chat_id=message.chat.id,photo=random.choice(configuration.ARR_ARTIST),caption="say your voice",reply_markup=inline3)
+
+
+@disp.callback_query_handler()
+async def callback_voting(callback:types.CallbackQuery):
+    if callback.data == "close":    
+        await callback.message.delete()
+
+    if callback.data == "Like" or callback.data == "Dislike": 
+        await callback.answer(text=callback.data,show_alert=True)
+
+ 
 @disp.message_handler()
 async def love(message:types.Message):
     if message.text == '🥰':
