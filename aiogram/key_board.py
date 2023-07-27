@@ -1,5 +1,6 @@
 from aiogram.types import ReplyKeyboardMarkup,ReplyKeyboardRemove,KeyboardButton
 from aiogram.types import InlineKeyboardMarkup,InlineKeyboardButton
+import configuration
 
 def create_keybord() -> ReplyKeyboardMarkup:# type: ignore
     keyboard = ReplyKeyboardMarkup(one_time_keyboard=True)# type: ignore
