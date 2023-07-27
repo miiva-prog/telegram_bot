@@ -3,57 +3,13 @@ from aiogram.types import ReplyKeyboardMarkup,ReplyKeyboardRemove,KeyboardButton
 from aiogram.types import InlineKeyboardMarkup,InlineKeyboardButton,InputFile
 import random
 import configuration
+import key_board
 
 bot = Bot(configuration.TOKEN_BOT)
 disp = Dispatcher(bot)
 
-command_help = """
-<b>/start</b>
-<b>/help</b>
-<b>/description</b>
-<b>/count</b>
-<b>/sticker</b>
-<b>/heart</b>
-<b>/hedgehog</b>
-<b>/map</b>
-<b>/social_network</b>
-<b>/mood</b>
-<b>/dogs</b>
-<b>/voting</b>
-"""
-
-description = """My bot is weak
-it needs to be upgraded"""
-
 count_call = 0
-
-keyboard = ReplyKeyboardMarkup(one_time_keyboard=True)# type: ignore
-keyboard.add(KeyboardButton('/start'))# type: ignore
-keyboard.add(KeyboardButton('/help'))# type: ignore
-keyboard.add(KeyboardButton('/description'))# type: ignore
-keyboard.add(KeyboardButton('/count'))# type: ignore
-keyboard.add(KeyboardButton('/sticker'))# type: ignore
-keyboard.add(KeyboardButton('/heart'))# type: ignore
-keyboard.add(KeyboardButton('/hedgehog'))# type: ignore
-keyboard.add(KeyboardButton("/map"))# type: ignore
-keyboard.add(KeyboardButton("/social_network"))#type: ignore
-keyboard.add(KeyboardButton("/mood"))#type: ignore
-keyboard.add(KeyboardButton("/dogs"))#type: ignore
-keyboard.add(KeyboardButton("🥰"))#type: ignore
-keyboard.add(KeyboardButton("/voting"))#type: ignore
-
-keyboard_2 = ReplyKeyboardMarkup(one_time_keyboard=True)#type: ignore
-keyboard_2.add(KeyboardButton("/spitz"))#type: ignore
-keyboard_2.add(KeyboardButton("/pug"))#type: ignore
-keyboard_2.add(KeyboardButton("/french_bulldog"))#type: ignore
-keyboard_2.add(KeyboardButton("/chihuahua"))#type: ignore
-keyboard_2.add(KeyboardButton("/corgi"))#type: ignore
-keyboard_2.add(KeyboardButton("/labrador"))#type: ignore
-
-inline = InlineKeyboardMarkup()
-inline_button1 = InlineKeyboardButton("VK",configuration.VK)# type: ignore
-inline_button2 = InlineKeyboardButton("Instagram",configuration.INSTAGRAM)# type: ignore
-inline.add(inline_button1,inline_button2)
+change_number = 0
 
 async def on_startup(_):
     print("Good work!")    
@@ -111,19 +67,19 @@ async def italics_font(message:types.Message):
 
 @disp.message_handler(commands=['start'])
 async def start_bot(message:types.Message):
-    await bot.send_message(chat_id=message.chat.id,text="Welcome",reply_markup=keyboard)
+    await bot.send_message(chat_id=message.chat.id,text="Welcome",reply_markup=key_board.create_keybord())
     await message.delete()
 
 
 @disp.message_handler(commands=['help'])
 async def help_bot(message:types.Message):
-    await bot.send_message(chat_id=message.chat.id,text=command_help,parse_mode="HTML")
+    await bot.send_message(chat_id=message.chat.id,text=configuration.COMMAND_HELP,parse_mode="HTML")
     await message.delete()
 
 
 @disp.message_handler(commands=['description'])
 async def description_bot(message:types.Message):
-    await bot.send_message(chat_id=message.chat.id,text=description)
+    await bot.send_message(chat_id=message.chat.id,text=configuration.DESCRIPTION)
     await message.delete()
 
 
@@ -161,15 +117,15 @@ async def map_bot(message:types.Message):
 
 @disp.message_handler(commands=['social_network'])
 async def social_network_bot(message:types.Message):
-    await bot.send_message(chat_id=message.chat.id,text="My social network",reply_markup=inline)
+    await bot.send_message(chat_id=message.chat.id,text="My social network",reply_markup=key_board.create_inline())
     await message.delete()
 
 
 @disp.message_handler(commands=['mood'])
 async def mood_bot(message:types.Message):
     inline_2 = InlineKeyboardMarkup()
-    inline_2_button1 = InlineKeyboardButton(text="Good",callback_data="like")# type: ignore
-    inline_2_button2 = InlineKeyboardButton(text="Bad",callback_data="dislike")# type: ignore
+    inline_2_button1 = InlineKeyboardButton(text="Good",callback_data="good")# type: ignore
+    inline_2_button2 = InlineKeyboardButton(text="Bad",callback_data="bad")# type: ignore
     inline_2.add(inline_2_button1,inline_2_button2)
 
     await bot.send_message(chat_id=message.chat.id,text="how is your mood?",reply_markup=inline_2)
@@ -178,15 +134,15 @@ async def mood_bot(message:types.Message):
 
 @disp.callback_query_handler()
 async def callback_mood(callback:types.CallbackQuery):
-    if callback.data == "like":
+    if callback.data == "good":
         await callback.answer(text="Nice!")
-    else:
+    if callback.data == "bad":
         await callback.answer(text="Everything will be alright!")
 
 
 @disp.message_handler(commands=['dogs'])
 async def dogs_bot(message:types.Message):
-    await bot.send_message(chat_id=message.chat.id,text="choose a breed",reply_markup=keyboard_2)
+    await bot.send_message(chat_id=message.chat.id,text="choose a breed",reply_markup=key_board.create_keyboard_2())
     await message.delete()
 
 
@@ -229,12 +185,12 @@ async def labrador_bot(message:types.Message):
 @disp.message_handler(commands=['voting'])
 async def voting_bot(message:types.Message):
     inline3 = InlineKeyboardMarkup()
-    inline3_button1 = InlineKeyboardButton("👍",callback_data="Like")#type: ignore
-    inline3_button2 = InlineKeyboardButton("👎",callback_data="Dislike")#type: ignore
+    inline3_button1 = InlineKeyboardButton("👍",callback_data="like")#type: ignore
+    inline3_button2 = InlineKeyboardButton("👎",callback_data="dislike")#type: ignore
     inline3_button3 = InlineKeyboardButton("Close",callback_data="close")#type: ignore
     inline3.add(inline3_button1,inline3_button2,inline3_button3)
 
-    await bot.send_photo(chat_id=message.chat.id,photo=random.choice(configuration.ARR_ARTIST),caption="say your voice",reply_markup=inline3)
+    await bot.send_photo(chat_id=message.chat.id,photo=random.choice(configuration.ARR_ARTIST),caption="Do you like?",reply_markup=inline3)
 
 
 @disp.callback_query_handler()
@@ -242,14 +198,32 @@ async def callback_voting(callback:types.CallbackQuery):
     if callback.data == "close":    
         await callback.message.delete()
 
-    if callback.data == "Like" or callback.data == "Dislike": 
-        await callback.answer(text=callback.data,show_alert=True)
+    if callback.data == "like" or callback.data == "dislike": 
+        await callback.answer(show_alert=True,text=callback.data)
 
- 
+
 @disp.message_handler()
 async def love(message:types.Message):
     if message.text == '🥰':
         await bot.send_photo(chat_id=message.chat.id,photo=configuration.VIKA)
+
+
+@disp.message_handler(commands=['change_number'])
+async def change_number_bot(message:types.Message):
+    global change_number
+    await bot.send_message(chat_id=message.chat.id,text=f"You can change it's -> {change_number}",reply_markup=key_board.create_inline_change_bot())
+
+
+@disp.callback_query_handler()
+async def callback_change_number(callback:types.CallbackQuery):
+    global change_number
+    if callback.data == '+':
+        change_number += 1
+        await callback.message.edit_text(text=f"You can change it's -> {change_number}",reply_markup=key_board.create_inline_change_bot())
+
+    if callback.data == '-':
+        change_number -= 1
+        await callback.message.edit_text(text=f"You can change it's -> {change_number}",reply_markup=key_board.create_inline_change_bot())
 
 
 if __name__ == "__main__":
