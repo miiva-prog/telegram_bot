@@ -10,6 +10,7 @@ disp = Dispatcher(bot)
 
 count_call = 0
 change_number = 0
+wrong = 0
 
 async def on_startup(_):
     print("Good work!")    
@@ -212,7 +213,7 @@ async def love(message:types.Message):
 async def change_number_bot(message:types.Message):
     global change_number
     await bot.send_message(chat_id=message.chat.id,text=f"You can change it's -> {change_number}",reply_markup=key_board.create_inline_change_bot())
-
+    await message.delete()
 
 @disp.callback_query_handler()
 async def callback_change_number(callback:types.CallbackQuery):
@@ -224,6 +225,50 @@ async def callback_change_number(callback:types.CallbackQuery):
     if callback.data == '-':
         change_number -= 1
         await callback.message.edit_text(text=f"You can change it's -> {change_number}",reply_markup=key_board.create_inline_change_bot())
+
+    if callback.data == "rand":
+        change_number = random.randint(1,1000)
+        await callback.message.edit_text(text=f"You can change it's -> {change_number}",reply_markup=key_board.create_inline_change_bot())
+
+    if callback.data == '0':
+        change_number = 0
+        await callback.message.edit_text(text=f"You can change it's -> {change_number}",reply_markup=key_board.create_inline_change_bot())
+
+
+@disp.message_handler(commands=['test'])
+async def test_bot(message:types.Message):
+    await bot.send_message(chat_id=message.chat.id,text=configuration.QUESTION1,reply_markup=key_board.create_one_question())
+    await message.delete()
+
+
+@disp.message_handler()
+async def one_question(message:types.Message):
+    global wrong
+    
+    if message.text == "И.С.Тургенев":
+            await message.answer(text=configuration.QUESTION2,reply_markup=key_board.create_two_question())
+    else:
+        wrong += 1
+
+
+@disp.message_handler()
+async def two_question(message:types.Message):
+    global wrong 
+
+    if message.text == "Иваново":
+        await message.answer(text=configuration.QUESTION3,reply_markup=key_board.create_three_question())
+    else:
+        wrong += 1
+
+
+@disp.message_handler()
+async def three_question(message:types.Message):
+    global wrong 
+
+    if message.text == "Исландия":
+        await message.answer(text=configuration.QUESTION4,reply_markup=key_board.create_four_question())
+    else:
+        wrong += 1
 
 
 if __name__ == "__main__":
