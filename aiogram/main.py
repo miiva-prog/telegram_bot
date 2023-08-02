@@ -10,7 +10,7 @@ disp = Dispatcher(bot)
 
 count_call = 0
 change_number = 0
-wrong = 0
+random_value = 0
 
 async def on_startup(_):
     print("Good work!")    
@@ -203,17 +203,12 @@ async def callback_voting(callback:types.CallbackQuery):
         await callback.answer(show_alert=True,text=callback.data)
 
 
-@disp.message_handler()
-async def love(message:types.Message):
-    if message.text == '🥰':
-        await bot.send_photo(chat_id=message.chat.id,photo=configuration.VIKA)
-
-
 @disp.message_handler(commands=['change_number'])
 async def change_number_bot(message:types.Message):
     global change_number
     await bot.send_message(chat_id=message.chat.id,text=f"You can change it's -> {change_number}",reply_markup=key_board.create_inline_change_bot())
     await message.delete()
+
 
 @disp.callback_query_handler()
 async def callback_change_number(callback:types.CallbackQuery):
@@ -235,41 +230,115 @@ async def callback_change_number(callback:types.CallbackQuery):
         await callback.message.edit_text(text=f"You can change it's -> {change_number}",reply_markup=key_board.create_inline_change_bot())
 
 
-@disp.message_handler(commands=['test'])
+@disp.message_handler(commands=['question'])
 async def test_bot(message:types.Message):
-    await bot.send_message(chat_id=message.chat.id,text=configuration.QUESTION1,reply_markup=key_board.create_one_question())
+    global random_value
+
+    random_value = random.randint(1,10)
+
+    if random_value == 1:
+        await bot.send_message(chat_id=message.chat.id,text=configuration.QUESTION1,reply_markup=key_board.create_inline_one_question())
+
+    if random_value == 2:
+        await bot.send_message(chat_id=message.chat.id,text=configuration.QUESTION2,reply_markup=key_board.create_inline_two_question())  
+
+    if random_value == 3:
+        await bot.send_message(chat_id=message.chat.id,text=configuration.QUESTION3,reply_markup=key_board.create_inline_three_question()) 
+
+    if random_value == 4:
+        await bot.send_message(chat_id=message.chat.id,text=configuration.QUESTION4,reply_markup=key_board.create_inline_four_question())
+
+    if random_value == 5:
+        await bot.send_message(chat_id=message.chat.id,text=configuration.QUESTION5,reply_markup=key_board.create_inline_five_question())
+    
+    if random_value == 6:
+        await bot.send_message(chat_id=message.chat.id,text=configuration.QUESTION6,reply_markup=key_board.create_inline_six_question())
+    
+    if random_value == 7:
+        await bot.send_photo(chat_id=message.chat.id,photo=configuration.MENDELEEV,caption=configuration.QUESTION7,reply_markup=key_board.create_inline_seven_question())
+
+    if random_value == 8:
+        await bot.send_message(chat_id=message.chat.id,text=configuration.QUESTION8,reply_markup=key_board.create_inline_eight_question())
+
+    if random_value == 9:
+        await bot.send_message(chat_id=message.chat.id,text=configuration.QUESTION9,reply_markup=key_board.create_inline_nine_question())
+
+    if random_value == 10:
+        await bot.send_message(chat_id=message.chat.id,text=configuration.QUESTION10,reply_markup=key_board.create_inline_ten_question())
+
     await message.delete()
 
 
-@disp.message_handler()
-async def one_question(message:types.Message):
-    global wrong
-    
-    if message.text == "И.С.Тургенев":
-            await message.answer(text=configuration.QUESTION2,reply_markup=key_board.create_two_question())
-    else:
-        wrong += 1
+@disp.callback_query_handler()
+async def callback_test(callback:types.CallbackQuery):
+    global random_value
+
+    if random_value == 1:
+        if callback.data == "Тургенев":
+            await callback.answer(text="Prioperly")
+        else:
+            await callback.answer(text="Wrong")
+
+    if random_value == 2:
+        if callback.data == "иваново!":
+            await callback.answer(text="Prioperly")
+        else:
+            await callback.answer(text="Wrong")
+
+    if random_value == 3:
+        if callback.data == "исландия!":
+            await callback.answer(text="Prioperly")
+        else:
+            await callback.answer(text="Wrong")
+
+    if random_value == 4:
+        if callback.data == "(1799)":
+            await callback.answer(text="Prioperly")
+        else:
+            await callback.answer(text="Wrong")
+
+    if random_value == 5:
+        if callback.data == "правыйжелудочек":
+            await callback.answer(text="Prioperly")
+        else:
+            await callback.answer(text="Wrong")
+
+    if random_value == 6:
+        if callback.data == "алюминий!":
+            await callback.answer(text="Prioperly")
+        else:
+            await callback.answer(text="Wrong")
+
+    if random_value == 7:
+        if callback.data == "Менделеев":
+            await callback.answer(text="Prioperly")
+        else:
+            await callback.answer(text="Wrong")
+
+    if random_value == 8:
+        if callback.data == "эпитет!":
+            await callback.answer(text="Prioperly")
+        else:
+            await callback.answer(text="Wrong")
+
+    if random_value == 9:
+        if callback.data == "(1861)":
+            await callback.answer(text="Prioperly")
+        else:
+            await callback.answer(text="Wrong")
+
+    if random_value == 10:
+        if callback.data == "(116)":
+            await callback.answer(text="Prioperly")
+        else:
+            await callback.answer(text="Wrong")
 
 
 @disp.message_handler()
-async def two_question(message:types.Message):
-    global wrong 
+async def love(message:types.Message):
+    if message.text == '🥰':
+        await bot.send_photo(chat_id=message.chat.id,photo=configuration.VIKA)
 
-    if message.text == "Иваново":
-        await message.answer(text=configuration.QUESTION3,reply_markup=key_board.create_three_question())
-    else:
-        wrong += 1
-
-
-@disp.message_handler()
-async def three_question(message:types.Message):
-    global wrong 
-
-    if message.text == "Исландия":
-        await message.answer(text=configuration.QUESTION4,reply_markup=key_board.create_four_question())
-    else:
-        wrong += 1
-
-
+        
 if __name__ == "__main__":
     executor.start_polling(disp,skip_updates=True,on_startup=on_startup)
