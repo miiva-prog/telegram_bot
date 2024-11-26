@@ -234,7 +234,7 @@ async def callback_change_number(callback:types.CallbackQuery):
 async def test_bot(message:types.Message):
     global random_value
 
-    random_value = random.randint(1,10)
+    random_value = random.randint(1,17)
 
     if random_value == 1:
         await bot.send_message(chat_id=message.chat.id,text=configuration.QUESTION1,reply_markup=key_board.create_inline_one_question())
@@ -265,6 +265,27 @@ async def test_bot(message:types.Message):
 
     if random_value == 10:
         await bot.send_message(chat_id=message.chat.id,text=configuration.QUESTION10,reply_markup=key_board.create_inline_ten_question())
+
+    if random_value == 11:
+        await bot.send_photo(chat_id=message.chat.id,photo=configuration.PASTERNAK,caption=configuration.QUESTION7,reply_markup=key_board.create_inline_eleven_question())
+
+    if random_value == 12:
+        await bot.send_message(chat_id=message.chat.id,text=configuration.QUESTION11,reply_markup=key_board.create_inline_twelve_question())
+
+    if random_value == 13:
+        await bot.send_message(chat_id=message.chat.id,text=configuration.QUESTION12,reply_markup=key_board.create_inline_thirteen_question())
+
+    if random_value == 14:
+        await bot.send_photo(chat_id=message.chat.id,photo=configuration.PIZANSKAIA,caption=configuration.QUESTION7,reply_markup=key_board.create_inline_fourteen_question())
+
+    if random_value == 15:
+        await bot.send_message(chat_id=message.chat.id,text=configuration.QUESTION13,reply_markup=key_board.create_inline_fiveteen_question())
+
+    if random_value == 16:
+        await bot.send_photo(chat_id=message.chat.id,photo=configuration.EQUATION,caption=configuration.QUESTION14,reply_markup=key_board.create_inline_sixteen_question())
+
+    if random_value == 17:
+        await bot.send_message(chat_id=message.chat.id,text=configuration.QUESTION15,reply_markup=key_board.create_inline_seventeen_question())
 
     await message.delete()
 
@@ -329,6 +350,48 @@ async def callback_test(callback:types.CallbackQuery):
 
     if random_value == 10:
         if callback.data == "(116)":
+            await callback.answer(text="Prioperly")
+        else:
+            await callback.answer(text="Wrong")
+
+    if random_value == 11:
+        if callback.data == "пастернак":
+            await callback.answer(text="Prioperly")
+        else:
+            await callback.answer(text="Wrong")
+
+    if random_value == 12:
+        if callback.data == "растительнаяклетка":
+            await callback.answer(text="Prioperly")
+        else:
+            await callback.answer(text="Wrong")
+
+    if random_value == 13:
+        if callback.data == "южамерика":
+            await callback.answer(text="Prioperly")
+        else:
+            await callback.answer(text="Wrong")
+
+    if random_value == 14:
+        if callback.data == "пизанскаябашня":
+            await callback.answer(text="Prioperly")
+        else:
+            await callback.answer(text="Wrong")
+
+    if random_value == 15:
+        if callback.data == "(371)":
+            await callback.answer(text="Prioperly")
+        else:
+            await callback.answer(text="Wrong")
+
+    if random_value == 16:
+        if callback.data == "(x1=2/3x2=-3)":
+            await callback.answer(text="Prioperly")
+        else:
+            await callback.answer(text="Wrong")
+
+    if random_value == 17:
+        if callback.data == "светильник":
             await callback.answer(text="Prioperly")
         else:
             await callback.answer(text="Wrong")

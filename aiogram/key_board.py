@@ -161,3 +161,77 @@ def create_inline_ten_question() -> InlineKeyboardMarkup:#type: ignore
     inline2.add(inline2_button4)
 
     return inline2
+
+def create_inline_eleven_question() -> InlineKeyboardMarkup:#type: ignore
+    inline2 = InlineKeyboardMarkup()
+    inline2_button1 = InlineKeyboardButton("А.П.Чехов",callback_data="чехов")#type: ignore
+    inline2_button2 = InlineKeyboardButton("А.Т.Твардовский",callback_data="твардовский")#type: ignore
+    inline2_button3 = InlineKeyboardButton("Б.Л.Пастернак",callback_data="пастернак")#type: ignore
+    inline2_button4 = InlineKeyboardButton("Н.А.Некрасов",callback_data="некрасов")#type: ignore
+    inline2.add(inline2_button1,inline2_button2,inline2_button3)
+    inline2.add(inline2_button4)
+
+    return inline2
+
+def create_inline_twelve_question() -> InlineKeyboardMarkup:#type: ignore
+    inline2 = InlineKeyboardMarkup()
+    inline2_button1 = InlineKeyboardButton("Растительная клетка",callback_data="растительнаяклетка")#type: ignore
+    inline2_button2 = InlineKeyboardButton("Животная клетка",callback_data="животнаяклетка")#type: ignore
+    inline2.add(inline2_button1,inline2_button2)
+
+    return inline2
+
+def create_inline_thirteen_question() -> InlineKeyboardMarkup:#type: ignore
+    inline2 = InlineKeyboardMarkup()
+    inline2_button1 = InlineKeyboardButton("Сев Америка",callback_data="севамерика")#type: ignore
+    inline2_button2 = InlineKeyboardButton("Юж Америка",callback_data="южамерика")#type: ignore
+    inline2_button3 = InlineKeyboardButton("Евразия",callback_data="евразия")#type: ignore
+    inline2_button4 = InlineKeyboardButton("Азия",callback_data="азия")#type: ignore
+    inline2.add(inline2_button1,inline2_button2,inline2_button3)
+    inline2.add(inline2_button4)
+
+    return inline2
+
+def create_inline_fourteen_question() -> InlineKeyboardMarkup:#type: ignore
+    inline2 = InlineKeyboardMarkup()
+    inline2_button1 = InlineKeyboardButton("Пизанская башня",callback_data="пизанскаябашня")#type: ignore
+    inline2_button2 = InlineKeyboardButton("Эльфивая башня",callback_data="эльфиваябашня")#type: ignore
+    inline2_button3 = InlineKeyboardButton("Башня Кристофера",callback_data="башнякристофера")#type: ignore
+    inline2_button4 = InlineKeyboardButton("Замок Люксембурга",callback_data="замоклюксембурга")#type: ignore
+    inline2.add(inline2_button1,inline2_button2,inline2_button3)
+    inline2.add(inline2_button4)
+
+    return inline2
+
+def create_inline_fiveteen_question() -> InlineKeyboardMarkup:#type: ignore
+    inline2 = InlineKeyboardMarkup()
+    inline2_button1 = InlineKeyboardButton("368",callback_data="(368)")#type: ignore
+    inline2_button2 = InlineKeyboardButton("370",callback_data="(370)")#type: ignore
+    inline2_button3 = InlineKeyboardButton("379",callback_data="(379)")#type: ignore
+    inline2_button4 = InlineKeyboardButton("371",callback_data="(371)")#type: ignore
+    inline2.add(inline2_button1,inline2_button2,inline2_button3)
+    inline2.add(inline2_button4)
+
+    return inline2
+
+def create_inline_sixteen_question() -> InlineKeyboardMarkup:#type: ignore
+    inline2 = InlineKeyboardMarkup()
+    inline2_button1 = InlineKeyboardButton("x1 = 2 x2 = -1",callback_data="(x1=2x2=-1)")#type: ignore
+    inline2_button2 = InlineKeyboardButton("x1 = 2/3 x2 = -3",callback_data="(x1=2/3x2=-3)")#type: ignore
+    inline2_button3 = InlineKeyboardButton("x1 = -1/2 x2 = 3",callback_data="(x1=-1/2x2=3)")#type: ignore
+    inline2_button4 = InlineKeyboardButton("x = 0",callback_data="(x=0)")#type: ignore
+    inline2.add(inline2_button1,inline2_button2,inline2_button3)
+    inline2.add(inline2_button4)
+
+    return inline2
+
+def create_inline_seventeen_question() -> InlineKeyboardMarkup:#type: ignore
+    inline2 = InlineKeyboardMarkup()
+    inline2_button1 = InlineKeyboardButton("Крем для рук",callback_data="кремддярук")#type: ignore
+    inline2_button2 = InlineKeyboardButton("Головной убор",callback_data="головнойубор")#type: ignore
+    inline2_button3 = InlineKeyboardButton("Вид блюда",callback_data="видблюда")#type: ignore
+    inline2_button4 = InlineKeyboardButton("Светильник",callback_data="светильник")#type: ignore
+    inline2.add(inline2_button1,inline2_button2,inline2_button3)
+    inline2.add(inline2_button4)
+
+    return inline2
